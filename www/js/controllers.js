@@ -238,9 +238,9 @@ angular.module('todo.io.controllers', [])
 .controller('SearchCtrl', function($scope, $stateParams, TodoListService) {
   $scope.searchKey = "";
 
-　　// "搜索任务"Event
+  // "搜索任务"Event
   $scope.searchToDo = function(searchKey) {
-      if (searchKey != undefined && searchKey != "")　{
+      if (searchKey != undefined && searchKey != ""){
           TodoListService.findByTitle(searchKey).then(function(todolists) {
             $scope.todolists = todolists;
           });
@@ -345,6 +345,11 @@ angular.module('todo.io.controllers', [])
 // 添加列表页面
 // *******************
 .controller('GroupCtrl', function($scope, $stateParams) {
+	$scope.newGroupName = "新列表";
+	$scope.addGroup = function(){
+		//console.log('add group .... ', $scope.newGroupName);
+		
+	}
 })
 
 // *******************

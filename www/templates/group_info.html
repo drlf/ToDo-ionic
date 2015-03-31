@@ -6,7 +6,7 @@
     <div class="list">
       <div class="item item-divider"> 列表名称 </div>
       <label class="item item-input">
-        <input type="text" placeholder="请输入名称">
+        <input type="text" placeholder="请输入名称" ng-model="newGroupName">
       </label>
       <div class="item item-divider"> 状态 </div>
       <li  class="item item-toggle">
@@ -21,7 +21,7 @@
   </ion-content>
   <ion-footer-bar>
     <div class="button-bar">
-      <a class="button button-assertive" style="font-size:18px;font-weight:bold;">保存</a>
+      <a class="button button-assertive" style="font-size:18px;font-weight:bold;" ng-click="addGroup()">保存</a>
     </div>
   </ion-footer-bar>
 </ion-view>
