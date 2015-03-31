@@ -87,6 +87,7 @@ angular.module('todo.io.services', [])
 		return;
     },
     addGroup: function(obj){
+    	console.log('[meuService]addGroup : ',obj);
     	postGroup(obj);
     }
     

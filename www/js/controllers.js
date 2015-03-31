@@ -20,7 +20,7 @@ angular.module('todo.io.controllers', [])
     startApp();
   } else {
     setTimeout(function () {
-      navigator.splashscreen.hide();
+      navigator.splashscreen.hide();  //TODO navigator.splashscreen 没有定义
     }, 750);
   }
 
@@ -344,11 +344,12 @@ angular.module('todo.io.controllers', [])
 // *******************
 // 添加列表页面
 // *******************
-.controller('GroupCtrl', function($scope, $stateParams) {
-	$scope.newGroupName = "新列表";
-	$scope.addGroup = function(){
+.controller('GroupCtrl', function($scope, $stateParams, MenuService) {
+	$scope.newGroupName = "";
+	$scope.addGroup = function(groupName){
 		//console.log('add group .... ', $scope.newGroupName);
-		
+		var newGroup = { title: groupName};
+		MenuService.addGroup(newGroup);
 	}
 })
 
