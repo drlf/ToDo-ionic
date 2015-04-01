@@ -3,12 +3,15 @@ angular.module('todo.io.controllers', [])
 // *******************
 // 向导页面
 // *******************
-.controller('TutorialCtrl', function($scope, $state, $ionicViewService) {
+.controller('TutorialCtrl', function($scope, $state, $ionicViewService, MenuService) {
 
-  window.localStorage['didTutorial'] = false;// For Test
+  //window.localStorage['didTutorial'] = false;// For Test
 
   var startApp = function() {
     $ionicViewService.clearHistory();
+    if(window.localStorage['didTutorial'] === "false") {
+    	MenuService.initApp();
+    }
     // 默认进入“今天”的任务列表
     $state.go('app.todolist', {groupId: -3});
     window.localStorage['didTutorial'] = true;
@@ -30,6 +33,7 @@ angular.module('todo.io.controllers', [])
   }
 
   $scope.slideHasChanged = function(index) {
+	  console.log('slideHasChanged!!');
   };
 })
 
@@ -40,7 +44,7 @@ angular.module('todo.io.controllers', [])
 
   // 初始化菜单项目
   var findDisplayMenus = function() {
-    MenuService.findAll(true).then(function(menus) {
+    MenuService.findAll().then(function(menus) {
       $scope.menus = menus;
     });
   }

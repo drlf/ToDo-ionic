@@ -4,11 +4,14 @@ angular.module('todo.io.services', [])
 .value('initDataService', 
 	//初始化用数据，在APP第一次安装时使用
 		{ groups : [
-        { title: '所有任务', id: 1, display: true, system: true},
-        { title: '已完成', id: 2, display: false, system: true},
-        { title: '今天', id: 3, display: true, system: true},
-        { title: '愿望', id: 4, display: true},
-        { title: '日程安排', id: 5, display: true}
+        { title: '所有任务', badge: 25, groupId: -1, display: true, edit:false},
+        { title: '已完成', badge: 6, groupId: -2, display: false, edit:false},
+        { title: '今天', badge: 2, groupId: -3, display: true, edit:false},
+        { title: '隐私', badge: 5, groupId: 1, display: true, edit:true},
+        { title: '购物', badge: 7, groupId: 2, display: true, edit:true},
+        { title: '想看的电影', badge: 9, groupId: 3, display: true, edit:true},
+        { title: '愿望', badge: 4, groupId: 4, display: true, edit:true},
+        { title: '日程安排', badge: 0, groupId: 5, display: true, edit:true}
     ]}
 )
 .service('storageService', function ($q, localStorageService) {
@@ -23,7 +26,7 @@ angular.module('todo.io.services', [])
 			return localStorageService.get(id);
 		};
 		this.post = function(obj){
-			if(typeof obj.id == 'undefined')obj.id = createUUID();
+			if(typeof obj.id == 'undefined')obj.id = this.createUUID();
 			return localStorageService.set(obj.id, obj);
 		};
 		this.put = function(obj){
@@ -82,29 +85,33 @@ angular.module('todo.io.services', [])
         return {menus: menus, todos: todos};
     };
 })
-.factory('MenuService', function ($q, dummyData) {
-  return {
-    findAll: function (display) {
-        var deferred = $q.defer();
-        var results = dummyData.menus.filter(function(element) {
-            if (display === undefined) {
-                return true;
-            } else {
-                return display === element.display;
-            }
-        });
-        deferred.resolve(results);
-        return deferred.promise;
-    },
-    findGroupName: function(groupId) {
-        var deferred = $q.defer();
-        var results = dummyData.menus.filter(function(element) {
-            return parseInt(groupId) === element.groupId;
+.service('MenuService', function ($q, dummyData, storageService, appConfigService, initDataService) {
+	var groups = [];
+	var groupRootId = appConfigService.groupRootId;
+	
+	this.initApp = function(){
+		console.log('initApp!!');
+		  groups =  initDataService.groups;
+		  storageService.post(groupRootId, groups);
+	  };
+    this.findAll = function () {
+    	var deferred = $q.defer();
+    	//如果groups没有加载，则先从存储中加载
+    	if(groups.length <= 0){
+    		console.log('load data from localstorage...');
+    		groups = storageService.get(groupRootId);
+    	}
+    	deferred.resolve(groups);
+    	return deferred.promise;
+    };
+    this.findGroupName = function(groupId) {
+    	var deferred = $q.defer();
+        var results = groups.filter(function(element) {
+            return groupId === element.id;
         });
         deferred.resolve(results);
         return deferred.promise;
     }
-  }
 })
 
 .factory('TodoListService', function ($q, dummyData) {
