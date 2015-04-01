@@ -335,7 +335,13 @@ angular.module('todo.io.controllers', [])
         });
       }
     });
-  }
+  };
+  
+  $scope.addTask = function(){
+	  console.log('addTask');
+	  var task = { type: 1, status: 1, groupId: "1", importance: 2, classname: 'checkbox-energized', title: '下午有个会！', date: '2014/01/01' };
+	  
+  };
 
   // "清单模式下回车添加子任务"Event
   $scope.handleKeydown = function(e, newItem) {

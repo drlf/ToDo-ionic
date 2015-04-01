@@ -120,9 +120,13 @@ angular.module('todo.io.services', [])
     };
 })
 
-.factory('TodoListService', function ($q, dummyData) {
-    return {
-        findByGroupId: function (groupId, status, sortKey) {
+.service('TodoListService', function ($q, dummyData) {
+	var tasks = [];
+	this.loadData = function(){
+		  console.log('loadtask Data!!');
+		  groups = storageService.get(groupRootId);  
+	  };
+        this.findByGroupId = function (groupId, status, sortKey) {
             var deferred = $q.defer();
             var results = dummyData.todos.filter(function(element) {
                 if (groupId == -1) {
@@ -152,14 +156,16 @@ angular.module('todo.io.services', [])
             });
             deferred.resolve(results);
             return deferred.promise;
-        },
-        findByTitle: function (titleKey) {
+        };
+        this.findByTitle = function (titleKey) {
             var deferred = $q.defer();
             var results = dummyData.todos.filter(function(element) {
                 return element.title.indexOf(titleKey) == -1 ? false : true;
             });
             deferred.resolve(results);
             return deferred.promise;
+        };
+        this.addTask = function(task){
+        	
         }
-    }
 })
