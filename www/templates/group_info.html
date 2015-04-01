@@ -6,14 +6,14 @@
     <div class="list">
       <div class="item item-divider"> 列表名称 </div>
       <label class="item item-input">
-        <input type="text" placeholder="请输入名称" ng-model="newGroupName">
+        <input type="text" placeholder="请输入名称" ng-model="group.title">
       </label>
       <div class="item item-divider"> 状态 </div>
       <li  class="item item-toggle">
         <h2> 显示 </h2>
         <p>在 “所有列表” 中显示？</p>
         <label class="toggle toggle-positive">
-         <input type="checkbox">
+         <input type="checkbox" ng-model="group.display">
          <div class="track"><div class="handle"></div></div>
         </label>
       </li>

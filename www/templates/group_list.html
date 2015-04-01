@@ -6,10 +6,14 @@
     <ion-list show-delete="true">
       <ion-item class="item item-button-right" ng-repeat="menu in menus">
         {{menu.title}} 
-        <a class="button button-stable" ng-if="!menu.display" ng-click="menu.display=!menu.display">隐藏</a>
-        <a class="button button-stable" ng-if="menu.display" ng-click="menu.display=!menu.display">可见</a>
+        <!-- <a class="button button-stable" ng-if="!menu.display" ng-click="menu.display=!menu.display">隐藏</a>
+        <a class="button button-stable" ng-if="menu.display" ng-click="menu.display=!menu.display">可见</a> -->
+        <label class="toggle toggle-positive">
+         <input type="checkbox" ng-model="menu.display" ng-click="toggleDisplay(menu)">
+         <div class="track"><div class="handle"></div></div>
+        </label>
         <ion-delete-button class="ion-trash-a"
-                           ng-click="menus.splice($index, 1)"
+                           ng-click="delItem(menu)"
                            ng-if="menu.edit">
         </ion-delete-button>
       </ion-item>

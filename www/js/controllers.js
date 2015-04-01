@@ -8,10 +8,13 @@ angular.module('todo.io.controllers', [])
   //window.localStorage['didTutorial'] = false;// For Test
 
   var startApp = function() {
+	  //console.log('startApp');
     $ionicViewService.clearHistory();
     if(window.localStorage['didTutorial'] === "false") {
     	MenuService.initApp();
     }
+    //从数据源加载列表数据
+    MenuService.loadData();
     // 默认进入“今天”的任务列表
     $state.go('app.todolist', {groupId: -3});
     window.localStorage['didTutorial'] = true;
@@ -33,7 +36,6 @@ angular.module('todo.io.controllers', [])
   }
 
   $scope.slideHasChanged = function(index) {
-	  console.log('slideHasChanged!!');
   };
 })
 
@@ -348,12 +350,14 @@ angular.module('todo.io.controllers', [])
 // *******************
 // 添加列表页面
 // *******************
-.controller('GroupCtrl', function($scope, $stateParams, MenuService) {
-	$scope.newGroupName = "";
-	$scope.addGroup = function(groupName){
-		//console.log('add group .... ', $scope.newGroupName);
-		var newGroup = { title: groupName};
-		MenuService.addGroup(newGroup);
+.controller('GroupCtrl', function($scope, $state, $stateParams, $ionicViewService, MenuService) {
+	$scope.group = {title : "", display: true, edit:true};
+	$scope.addGroup = function(){
+		//console.log('add group .... ', $scope.input.newGroupName);
+		//var newGroup = { title: $scope.input.newGroupName, display: true, edit:true};
+		MenuService.add($scope.group);
+		$state.go('app.todolist', {groupId: -1});	//TODO  返回history页面
+		//$ionicViewService.goBack();
 	}
 })
 
@@ -369,8 +373,15 @@ angular.module('todo.io.controllers', [])
       });
   }
   findDisplayMenus();
-
-  // "删除列表"Event
+  $scope.delItem = function(group){
+	  MenuService.del(group.groupId);
+  };
+  
+  $scope.toggleDisplay = function(group){
+	  group.display = !group.display;
+	  MenuService.post(group);
+  };
+  // "删除列表"Event 移动节点？
   $scope.moveItem = function(item, fromIndex, toIndex) {
     $scope.items.splice(fromIndex, 1);
     $scope.items.splice(toIndex, 0, item);
