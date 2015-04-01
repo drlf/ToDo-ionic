@@ -1,7 +1,7 @@
 angular.module('todo.io.services', [])
 
 .value('appConfigService',{"groupRootId":"0"})
-.value('initDatas', 
+.value('initDataService', 
 	//初始化用数据，在APP第一次安装时使用
 		{ groups : [
         { title: '所有任务', badge: 25, groupId: -1, display: true, edit:false},
@@ -56,13 +56,13 @@ angular.module('todo.io.services', [])
     ];
     var todos = [
         { id: 1, type: 1, status: 1, groupId: 1, importance: 2, classname: 'checkbox-energized', title: '下午有个会！', date: '2014/01/01' },
+        { id: 2, type: 2, status: 1, groupId: 1, importance: 3, classname: 'checkbox-assertive', title: '晚上有个饭局', date: '2014/01/02' },
         { id: 25, type: 1, status: 1, groupId: 3, importance: 0, classname: 'checkbox-stable', title: '《达芬奇密码》', date: '2014/08/25' }
     ];
     this.$get = function() {
         return {menus: menus, todos: todos};
     };
 })
-<<<<<<< HEAD
 .service('MenuService', function ($q, dummyData, storageService, appConfigService, initDataService) {
 	var groups = [];
 	var groupRootId = appConfigService.groupRootId;
@@ -86,27 +86,6 @@ angular.module('todo.io.services', [])
     	var deferred = $q.defer();
         var results = groups.filter(function(element) {
             return groupId === element.id;
-=======
-.service('MenuService', function ($q, dummyData, localStorageService, appConfigService, initDatas) {
-	var groups = [];
-	var groupRootId = appConfigService.groupRootId;
-	//storageService
-	this.initApp = function(){
-		  groups =  initDatas.groups;
-		  //storageService.set(groupRootId, groups);
-	  };
-    this.findAll =  function (display) {
-    	var deferred = $q.defer();
-    	//如果groups没有加载，则先从存储中加载
-    	if(groups.length <= 0)groups = storageService.get(groupRootId);
-    	deferred.resolve(groups);
-    	return deferred.promise;
-    };
-    this.findGroupName = function(groupId) {
-        var deferred = $q.defer();
-        var results = dummyData.menus.filter(function(element) {
-            return parseInt(groupId) === element.groupId;
->>>>>>> branch 'master' of git@github.com:drlf/ToDo-ionic.git
         });
         deferred.resolve(results);
         return deferred.promise;
